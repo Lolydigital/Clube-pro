@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ArrowLeft, Plus, Trash2, Pencil, Check, X, Loader2, Users, Package, Settings, BookOpen, Link2 } from "lucide-react";
 
-type Produto = { id: string; nome: string; descricao: string | null; cover_url: string | null; link_vendas: string | null; link_checkout: string | null; tipo: string; ordem: number; ativo: boolean };
+type Produto = { id: string; nome: string; descricao: string | null; cover_url: string | null; link_vendas: string | null; link_checkout: string | null; link_acesso: string | null; tipo: string; ordem: number; ativo: boolean };
 type Membro = { user_id: string; email: string; produto_id: string; produto_nome: string; ativo: boolean; origem: string; created_at: string };
 type Config = { id: string; nome_plataforma: string; logo_url: string | null; banner_url: string | null; cor_primaria: string; frase_boas_vindas: string; admin_user_ids: string[] };
 type Tab = "produtos" | "membros" | "config" | "webhooks";
@@ -84,6 +84,7 @@ export default function Admin() {
       cover_url: editProd.cover_url?.trim() || null,
       link_vendas: editProd.link_vendas?.trim() || null,
       link_checkout: editProd.link_checkout?.trim() || null,
+      link_acesso: editProd.link_acesso?.trim() || null,
       tipo: editProd.tipo ?? "curso",
       ordem: editProd.ordem ?? 0,
       ativo: editProd.ativo ?? true,
@@ -205,6 +206,11 @@ export default function Admin() {
                   <div>
                     <label className="text-xs font-medium block mb-1">Link direto do checkout</label>
                     <input value={editProd.link_checkout ?? ""} onChange={e => setEditProd(p => ({ ...p!, link_checkout: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="https://..." />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="text-xs font-medium block mb-1">🔓 Link de acesso (após comprar)</label>
+                    <input value={editProd.link_acesso ?? ""} onChange={e => setEditProd(p => ({ ...p!, link_acesso: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Ex: https://catalogopro.store" />
+                    <p className="text-[11px] text-muted-foreground mt-1">URL que o membro acessa após desbloquear o produto</p>
                   </div>
                   <div>
                     <label className="text-xs font-medium block mb-1">Ordem</label>

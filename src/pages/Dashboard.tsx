@@ -11,6 +11,7 @@ type Produto = {
   cover_url: string | null;
   link_vendas: string | null;
   link_checkout: string | null;
+  link_acesso: string | null;
   tipo: string;
   ordem: number;
 };
@@ -201,13 +202,35 @@ function ProdutoCard({ produto, desbloqueado, corPrimaria, lang }: { produto: Pr
 
         <div className="mt-4">
           {desbloqueado ? (
-            <Link
-              to={`/produto/${produto.id}`}
-              className="w-full py-2 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity"
-              style={{ background: corPrimaria }}
-            >
-              {t("Acessar", "Access")} <ChevronRight className="h-4 w-4" />
-            </Link>
+            <div className="space-y-2">
+              {produto.link_acesso ? (
+                <a
+                  href={produto.link_acesso}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-2 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity"
+                  style={{ background: corPrimaria }}
+                >
+                  {t("Acessar ferramenta", "Access tool")} <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              ) : (
+                <Link
+                  to={`/produto/${produto.id}`}
+                  className="w-full py-2 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity"
+                  style={{ background: corPrimaria }}
+                >
+                  {t("Acessar", "Access")} <ChevronRight className="h-4 w-4" />
+                </Link>
+              )}
+              {produto.link_acesso && (
+                <Link
+                  to={`/produto/${produto.id}`}
+                  className="w-full py-2 rounded-xl text-xs font-medium border flex items-center justify-center gap-1.5 hover:bg-muted transition-colors text-muted-foreground"
+                >
+                  {t("Ver módulos e aulas", "View modules")} <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              )}
+            </div>
           ) : (
             <div className="space-y-2">
               {produto.link_checkout && (
